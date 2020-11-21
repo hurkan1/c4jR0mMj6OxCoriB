@@ -17,5 +17,7 @@ Implementing K-Fold Cross Validation
 
 Month Information seems to be the most seperable feature in general. Customers who have been called in October are more likely to buy the investment product.
 
+K-Fold result : 92.08958404307447
+
 
 
