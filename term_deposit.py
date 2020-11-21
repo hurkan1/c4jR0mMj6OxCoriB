@@ -16,8 +16,6 @@ data.head()
 
 #%%
 
-X=data.iloc[:,:13]
-y=data.iloc[:,-1]
 
 data["output"]=(data.y=="yes").astype("int")
 
@@ -42,18 +40,21 @@ new_data=data[data_1+["output"]]
 
 #%% data splitting
 
-X_train, X_test, y_train, y_test = train_test_split(new_data, y, test_size=0.33, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(new_data, data["output"], test_size=0.33, random_state=42)
 
 X_train=X_train.values
 y_train=y_train.values
 X_test=X_test.values
 y_test=y_test.values
 
+
+
 #%%KNN classification
 
 from sklearn.neighbors import KNeighborsClassifier
 knn =  KNeighborsClassifier(n_neighbors = 3)
 knn.fit(X_train,y_train)
+prediction = knn.predict(X_test)
 print(" {} nn score: {} ".format(3,knn.score(X_test,y_test)))
 
 
@@ -62,7 +63,7 @@ from sklearn.model_selection import cross_val_score
 acc=cross_val_score(estimator=knn,X=X_train,y=y_train,cv=5)
 print(acc.mean()*100)
 
-#%%
+#%% finding the most seperable features
 from skfeature.function.statistical_based import f_score
 
 correct = 0
@@ -72,5 +73,6 @@ score = f_score.f_score(X_train, y_train)
 idx = f_score.feature_ranking(score)
 selected_features = X_train[:, idx[0:num_fea]]
 print([selected_features])
+
 
       
